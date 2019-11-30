@@ -19,10 +19,11 @@ public class SimpleShell {
         // yep, make an effort to format things nicely, eh?
         System.out.println(output);
     }
+
     public static void main(String[] args) throws java.io.IOException {
 
-        YouAreEll webber = new YouAreEll(new MessageController(), new IdController());
-        
+        YouAreEll webber = new YouAreEll();
+
         String commandLine;
         BufferedReader console = new BufferedReader
                 (new InputStreamReader(System.in));
@@ -54,7 +55,7 @@ public class SimpleShell {
                 list.add(commands[i]);
 
             }
-            System.out.print(list); //***check to see if list was added correctly***
+
             history.addAll(list);
             try {
                 //display history of shell with index
@@ -68,11 +69,19 @@ public class SimpleShell {
 
                 // ids
                 if (list.contains("ids")) {
-                    String results = webber.get_ids();
-                    SimpleShell.prettyPrint(results);
-                    continue;
-                }
+                    if (list.size() == 1) {
+                        String results = webber.get_ids();
+                        SimpleShell.prettyPrint(results);
+                    } else if (list.contains("setCurrent")) {
+                        String result = String.valueOf(webber.putOrPostIds(list.get(1), list.get(2)));
 
+                    } else {
+                        String results = String.valueOf(webber.putOrPostIds(list.get(1), list.get(2)));
+                        SimpleShell.prettyPrint(results);
+                    }
+                    continue;
+
+                }
                 // messages
                 if (list.contains("messages")) {
                     String results = webber.get_messages();

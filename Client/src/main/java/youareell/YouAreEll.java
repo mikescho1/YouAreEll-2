@@ -1,6 +1,9 @@
 package youareell;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import controllers.*;
+import models.Id;
+import views.IdTextView;
 
 public class YouAreEll {
 
@@ -8,30 +11,32 @@ public class YouAreEll {
     private IdController idCtrl;
     private TransactionController transactionController;
 
+
     public YouAreEll () {
         // used j because i seems awkward
         this.transactionController = new TransactionController();
-        this.msgCtrl = m;
-        this.idCtrl = new IdController(TransactionController transController);
+        this.idCtrl = new IdController(transactionController);
 
     }
 
-    public static void main(String[] args) {
-        // hmm: is this Dependency Injection?
-        YouAreEll urlhandler = new YouAreEll(new MessageController(), new IdController());
-        System.out.println(urlhandler.MakeURLCall("/ids", "GET", ""));
-        System.out.println(urlhandler.MakeURLCall("/messages", "GET", ""));
-    }
 
     public String get_ids() {
-        return MakeURLCall("/ids", "GET", "");
+       return new IdTextView().toString(idCtrl.getIds());
+    }
+
+    public Id putOrPostIds(String name, String gitHubId)    {
+        for(Id dbId: idCtrl.getIds()) {
+            if (gitHubId.equals(dbId.getGitHubId())) {
+               Id id = new Id(name, gitHubId);
+                return idCtrl.putId(name, gitHubId);
+            }
+        }   Id newId = new Id(name, gitHubId);
+        return idCtrl.postId(newId);
     }
 
     public String get_messages() {
-        return MakeURLCall("/messages", "GET", "");
+       return null;
     }
 
-    public String MakeURLCall(String mainurl, String method, String jpayload) {
-        return "nada";
-    }
+
 }
