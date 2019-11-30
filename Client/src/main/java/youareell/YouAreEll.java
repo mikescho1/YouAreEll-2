@@ -6,11 +6,14 @@ public class YouAreEll {
 
     private MessageController msgCtrl;
     private IdController idCtrl;
+    private TransactionController transactionController;
 
-    public YouAreEll (MessageController m, IdController j) {
+    public YouAreEll () {
         // used j because i seems awkward
+        this.transactionController = new TransactionController();
         this.msgCtrl = m;
-        this.idCtrl = j;
+        this.idCtrl = new IdController(TransactionController transController);
+
     }
 
     public static void main(String[] args) {

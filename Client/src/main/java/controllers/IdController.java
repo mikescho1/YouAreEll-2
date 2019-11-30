@@ -6,7 +6,12 @@ import models.Id;
 
 public class IdController {
     Id myId;
+    private TransactionController transactionController;
 
+    public IdController(TransactionController transController) {                  //now you can talk to the server via the transaction controller.
+        this.transactionController = transController;
+
+    }
     public ArrayList<Id> getIds() {
         return null;
     }
