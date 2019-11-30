@@ -6,6 +6,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -74,8 +75,23 @@ public class TransactionController {
     }
 
 
-    public String put(String mainUrl, String jPayLoad) throws IOException {
+    public String put(String mainUrl, String jPayLoad) throws IOException {     //this code is identical to post except that we changed all "post" to "put"
+        CloseableHttpResponse response1 = null;
+        HttpPut httpPut = new HttpPut(rootURL + mainUrl);
+        httpPut.setEntity(new StringEntity(jPayLoad));
+        CloseableHttpResponse response2 = httpClient.execute(httpPut);
 
+        try {
+            System.out.println(response2.getStatusLine());
+            HttpEntity entity2 = response2.getEntity();
+            // do something useful with the response body
+            // and ensure it is fully consumed
+            EntityUtils.consume(entity2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            response2.close();
+        }
         return null;
     }
 
@@ -91,6 +107,8 @@ public class TransactionController {
             // do something useful with the response body
             // and ensure it is fully consumed
             EntityUtils.consume(entity2);
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             response2.close();
         }

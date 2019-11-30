@@ -23,7 +23,8 @@ public class IdController {
             String response = transactionController.makeURLCall("/ids", "GET", "");
             System.out.println(response);
             ObjectMapper objectMapper = new ObjectMapper();
-            this.idList = objectMapper.readValue(response, new TypeReference<ArrayList<Id>>() {});
+            this.idList = objectMapper.readValue(response, new TypeReference<ArrayList<Id>>() {
+            });
             return this.idList;
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,7 +41,7 @@ public class IdController {
             getIds();
             return getByGitHubId(id.getGitHubId());
 
-        }   catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -49,8 +50,8 @@ public class IdController {
     public Id putId(String name, String gitHubId) {
         try {
             getIds();
-            for(Id id: idList)      {
-                if(id.getGitHubId().equals(gitHubId))   {
+            for (Id id : idList) {
+                if (id.getGitHubId().equals(gitHubId)) {
                     id.setName(name);
                     ObjectMapper objectMapper = new ObjectMapper();
                     String jSonPayload = objectMapper.writeValueAsString(id);
@@ -60,18 +61,20 @@ public class IdController {
                 }
             }
 
-        }   catch (Exception e) {
-            e.printStackTrace();;
+        } catch (Exception e) {
+            e.printStackTrace();
+            ;
         }
         return null;
     }
 
-    public Id getByGitHubId(String gitHubId)   {
-        for(Id id: idList)  {
-            if(id.getGitHubId().equals(gitHubId))   {
+    public Id getByGitHubId(String gitHubId) {
+        for (Id id : idList) {
+            if (id.getGitHubId().equals(gitHubId)) {
                 return id;
             }
-        }   return null;
+        }
+        return null;
     }
 
 }
